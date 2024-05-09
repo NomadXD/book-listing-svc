@@ -22,7 +22,7 @@ func init() {
     }
 
     // Write the list of book names to a file
-    writeToFile("/mnt/books.json", books)
+    writeToFile("/home/books.json", books)
 }
 
 func main() {
