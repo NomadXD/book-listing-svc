@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 type Book struct {
@@ -36,13 +36,22 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 }
 
 func writeToFile(filename string, data interface{}) {
-    jsonData, err := json.Marshal(data)
-    if err != nil {
-        log.Fatalf("Error marshalling data: %v", err)
-    }
+	// Marshal data to JSON
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		log.Fatalf("Error marshalling data: %v", err)
+	}
 
-    err = ioutil.WriteFile(filename, jsonData, 0644)
-    if err != nil {
-        log.Fatalf("Error writing to file: %v", err)
-    }
+	// Create or open the file
+	file, err := os.Create(filename)
+	if err != nil {
+		log.Fatalf("Error creating file: %v", err)
+	}
+	defer file.Close()
+
+	// Write JSON data to the file
+	_, err = file.Write(jsonData)
+	if err != nil {
+		log.Fatalf("Error writing to file: %v", err)
+	}
 }
