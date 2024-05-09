@@ -7,8 +7,6 @@ WORKDIR /app
 RUN addgroup -g 10014 choreo && \
     adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
 
-USER 10014
-
 # Copy go mod and sum files
 # COPY go.mod go.sum ./
 
@@ -24,11 +22,6 @@ RUN go build -o main .
 # Start a new stage from scratch
 FROM alpine:latest
 
-RUN addgroup -g 10014 choreo && \
-    adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
-
-USER 10014
-
 RUN apk --no-cache add ca-certificates
 
 # Set the Current Working Directory inside the container
@@ -37,5 +30,6 @@ WORKDIR /root/
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/main .
 
+USER 10014
 # Command to run the executable
 CMD ["./main"]
