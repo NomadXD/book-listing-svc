@@ -26,19 +26,9 @@ func init() {
 }
 
 func main() {
-    http.HandleFunc("/books", handleBooks)
+    http.HandleFunc("/books", getBooks)
+	http.HandleFunc("/books/add", addBook)
     log.Fatal(http.ListenAndServe(":8080", nil))
-}
-
-func handleBooks(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		getBooks(w, r)
-	case http.MethodPost:
-		addBook(w, r)
-	default:
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-	}
 }
 
 func getBooks(w http.ResponseWriter, r *http.Request) {
