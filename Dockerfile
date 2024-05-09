@@ -22,7 +22,12 @@ COPY . .
 RUN go build -o main .
 
 # Start a new stage from scratch
-FROM alpine:latest  
+FROM alpine:latest
+
+RUN addgroup -g 10014 choreo && \
+    adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
+
+USER 10014
 
 RUN apk --no-cache add ca-certificates
 
