@@ -4,6 +4,9 @@ FROM golang:1.17 AS builder
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
+RUN addgroup -g 10014 choreo && \
+    adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
+
 # Copy go mod and sum files
 # COPY go.mod go.sum ./
 
