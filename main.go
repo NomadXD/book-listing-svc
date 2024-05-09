@@ -26,13 +26,39 @@ func init() {
 }
 
 func main() {
-    http.HandleFunc("/books", getBooks)
+    http.HandleFunc("/books", handleBooks)
     log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func handleBooks(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		getBooks(w, r)
+	case http.MethodPost:
+		addBook(w, r)
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
 }
 
 func getBooks(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(books)
+}
+
+func addBook(w http.ResponseWriter, r *http.Request) {
+	var newBook Book
+	if err := json.NewDecoder(r.Body).Decode(&newBook); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	books = append(books, newBook)
+
+	// Write the updated list of books to the file
+	writeToFile("/tmp/books.json", books)
+
+	w.WriteHeader(http.StatusCreated)
 }
 
 func writeToFile(filename string, data interface{}) {
