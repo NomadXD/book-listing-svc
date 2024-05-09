@@ -13,17 +13,17 @@ type Book struct {
 
 var books []Book
 
-func init() {
-    // Populate books slice with some sample book names
-    books = []Book{
-        {"Book 1"},
-        {"Book 2"},
-        {"Book 3"},
-    }
+// func init() {
+//     // Populate books slice with some sample book names
+//     books = []Book{
+//         {"Book 1"},
+//         {"Book 2"},
+//         {"Book 3"},
+//     }
 
-    // Write the list of book names to a file
-    writeToFile("/tmp/data/books.json", books)
-}
+//     // Write the list of book names to a file
+//     writeToFile("/mnt/data/books.json", books)
+// }
 
 func main() {
     http.HandleFunc("/books", getBooks)
