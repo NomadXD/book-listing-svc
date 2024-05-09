@@ -7,6 +7,8 @@ WORKDIR /app
 RUN addgroup -g 10014 choreo && \
     adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
 
+USER 10014
+
 # Copy go mod and sum files
 # COPY go.mod go.sum ./
 
