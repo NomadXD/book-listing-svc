@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Book Listing REST API
+  version: 1.0.0
+  description: A simple REST API for managing books with hardcoded responses.
+
+servers:
+  - url: /
+    description: Base URL for the API
+
+paths:
+  /books:
+    get:
+      summary: List all books
+      responses:
+        '200':
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+
+  /books/add:
+    post:
+      summary: Add a new book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '201':
+          description: New book added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /books/update:
+    put:
+      summary: Update a book by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '200':
+          description: Book updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /books/delete:
+    delete:
+      summary: Delete a book by ID
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book deleted
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
