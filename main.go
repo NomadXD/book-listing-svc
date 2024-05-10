@@ -66,6 +66,12 @@ func writeToFile(filename string, data interface{}) {
 		return
 	}
 
+	// Adjust permissions of the directory
+	if err := os.Chmod(dir, 0755); err != nil {
+		log.Fatalf("Error granting permission to directory: %v", err)
+		return
+	}
+
 	// Create or open the file
 	file, err := os.Create(filename)
 	if err != nil {
