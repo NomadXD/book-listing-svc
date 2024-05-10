@@ -23,7 +23,7 @@ func init() {
     }
 
     // Write the list of book names to a file
-    writeToFile("/tmp/data/books.json", books)
+    // writeToFile("/tmp/data/books.json", books)
 }
 
 func main() {
@@ -63,12 +63,6 @@ func writeToFile(filename string, data interface{}) {
 	dir := filepath.Dir(filename)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		log.Fatalf("Error creating directory: %v", err)
-		return
-	}
-
-	// Adjust permissions of the directory
-	if err := os.Chmod(dir, 0755); err != nil {
-		log.Fatalf("Error granting permission to directory: %v", err)
 		return
 	}
 
