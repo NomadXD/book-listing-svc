@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 type Book struct {
@@ -46,7 +47,7 @@ func addBook(w http.ResponseWriter, r *http.Request) {
 	books = append(books, newBook)
 
 	// Write the updated list of books to the file
-	writeToFile("/tmp/books.json", books)
+	writeToFile("/tmp/data/books.json", books)
 
 	w.WriteHeader(http.StatusCreated)
 }
@@ -56,6 +57,13 @@ func writeToFile(filename string, data interface{}) {
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		log.Fatalf("Error marshalling data: %v", err)
+	}
+
+	// Ensure the directory exists
+	dir := filepath.Dir(filename)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		log.Fatalf("Error creating directory: %v", err)
+		return
 	}
 
 	// Create or open the file
