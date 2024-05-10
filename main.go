@@ -65,7 +65,7 @@ func writeToFile(filename string, data interface{}) {
 	// 	return
 	// }
 
-	file, err := os.Open(filename)
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		log.Fatalf("Error opening file: %v", err)
 		return 
