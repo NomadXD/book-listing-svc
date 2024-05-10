@@ -31,7 +31,7 @@ RUN adduser \
     --uid 10014 \
     "choreo"
 
-RUN chown -R choreo:choreo /home/data
+RUN chown -R choreo:choreo /home
 
 USER 10014
 ENTRYPOINT ["/go/bin/app"]
