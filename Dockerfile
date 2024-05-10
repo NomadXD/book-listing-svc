@@ -5,8 +5,8 @@ WORKDIR /app
 COPY go.mod ./
 
 # Create a new user with UID 10014
-RUN addgroup -g 10014 choreo && \
-    adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
+# RUN addgroup -g 10014 choreo && \
+# adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
 
 
 # COPY the source code as the last step
@@ -22,6 +22,13 @@ COPY --from=build-env /go/bin/app /go/bin/app
 COPY books.json /tmp/data/books.json
 
 EXPOSE 8080
-
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid 10014 \
+    "choreo"
 USER 10014
 ENTRYPOINT ["/go/bin/app"]
