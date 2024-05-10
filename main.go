@@ -46,7 +46,7 @@ func addBook(w http.ResponseWriter, r *http.Request) {
 	books = append(books, newBook)
 
 	// Write the updated list of books to the file
-	writeToFile("/tmp/data/books.json", books)
+	writeToFile("/home/data/books.json", books)
 
 	w.WriteHeader(http.StatusCreated)
 }

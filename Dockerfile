@@ -19,7 +19,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o /go/
 
 FROM alpine
 COPY --from=build-env /go/bin/app /go/bin/app
-COPY books.json /tmp/data/books.json
+COPY books.json /home/data/books.json
 
 EXPOSE 8080
 RUN adduser \
