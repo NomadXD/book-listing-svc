@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 )
 
 type Book struct {
@@ -60,16 +59,16 @@ func writeToFile(filename string, data interface{}) {
 	}
 
 	// Ensure the directory exists
-	dir := filepath.Dir(filename)
-	if err := os.MkdirAll(dir, 0755); err != nil {
-		log.Fatalf("Error creating directory: %v", err)
-		return
-	}
+	// dir := filepath.Dir(filename)
+	// if err := os.MkdirAll(dir, 0755); err != nil {
+	// 	log.Fatalf("Error creating directory: %v", err)
+	// 	return
+	// }
 
-	// Create or open the file
-	file, err := os.Create(filename)
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
-		log.Fatalf("Error creating file: %v", err)
+		log.Fatalf("Error opening file: %v", err)
+		return 
 	}
 	defer file.Close()
 
